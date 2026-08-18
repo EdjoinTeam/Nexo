@@ -1,0 +1,16 @@
+{
+  "name": "Nexo",
+  "short_name": "Nexo",
+  "description": "Nexo Messenger.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/RGKGgjs2/IMG-7440.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
