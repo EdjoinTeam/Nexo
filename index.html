@@ -3560,7 +3560,7 @@ function verifiedBadgeHTML(login) {
 }
 
 function refreshProfileUI() {
-  document.getElementById('meNameLabel').innerHTML = profile.displayName.replace(/</g,'&lt;') + (profile.premium ? ' ' + CROWN_SVG : '');
+  document.getElementById('meNameLabel').innerHTML = profile.displayName.replace(/</g,'&lt;') + (profile.premium ? ' ' + CROWN_SVG : '') + (VERIFIED_LOGINS.includes((profile.login||'').toLowerCase()) ? VERIFIED_SVG : '');
   document.getElementById('meNameLabel').setAttribute('style', nicknameStyleFromUser(profile));
   document.getElementById('meLoginLabel').textContent = '@' + profile.login;
   document.getElementById('displayNameInput').value = profile.displayName;
@@ -5236,7 +5236,15 @@ async function openChat(login) {
   renderList();
 }
 
-async function refreshUsersCache() { usersCache = await dbGet('users', {}, true); }
+// Аккаунт(ы), которым присваивается бейдж верификации (синяя галочка).
+// Логины указываются в нижнем регистре.
+const VERIFIED_LOGINS = ['mateodev'];
+async function refreshUsersCache() {
+  usersCache = await dbGet('users', {}, true);
+  for (const lc of VERIFIED_LOGINS) {
+    if (usersCache[lc]) usersCache[lc].verified = true;
+  }
+}
 
 function getMessages(login) {
   if (!chatMessages[login]) chatMessages[login] = [];
