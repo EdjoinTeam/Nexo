@@ -1674,6 +1674,7 @@ input, textarea { font-family: inherit; color: inherit; }
   top: 2px; left: 2px;
   transition: all .1s;
 }
+.switch.locked { opacity: .5; pointer-events: none; }
 .switch.on {
   background: var(--accent-soft);
   border-color: var(--accent);
@@ -2037,6 +2038,13 @@ img.premium-badge {
 .server-msg .head .who { font-weight: 700; font-size: 13.5px; }
 .server-msg .head .when { font-size: 10.5px; color: var(--text-dim); }
 .server-msg .text { font-size: 14.5px; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+.channel-readonly-note {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 16px; color: var(--text-dim); font-size: 13px; text-align: center;
+}
+.reaction-chip.add-reaction { opacity: .55; font-size: 12px; padding: 3px 8px; }
+.reaction-chip.add-reaction:hover { opacity: 1; }
+.server-reactions:empty { display: none; }
 .channel-manage-row {
   display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border);
 }
@@ -2050,6 +2058,57 @@ img.premium-badge {
 .member-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
 .member-row .name { font-size: 13.5px; font-weight: 600; flex: 1; }
 .owner-tag { font-size: 10.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft); padding: 2px 7px; border-radius: 6px; }
+.admin-tag { font-size: 10.5px; font-weight: 700; color: var(--success); background: rgba(16,185,129,0.12); padding: 2px 7px; border-radius: 6px; }
+.empty-hint { color: var(--text-dim); font-size: 13px; padding: 6px 0 2px; }
+
+/* --- Редактирование канала (шапка) --- */
+.channel-edit-head { display: flex; align-items: center; gap: 14px; }
+.channel-edit-avatar { width: 64px; height: 64px; font-size: 22px; border-radius: 18px !important; flex-shrink: 0; }
+.settings-row-nav { cursor: pointer; }
+.settings-row-nav:hover { background: var(--panel-2); margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 8px; }
+.row-value { font-size: 13.5px; color: var(--accent); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.new-badge { font-size: 9px; font-weight: 800; color: #fff; background: var(--accent); padding: 1px 5px; border-radius: 5px; vertical-align: middle; margin-left: 4px; letter-spacing: .3px; }
+.design-dot { width: 16px; height: 16px; border-radius: 50%; display: inline-block; border: 2px solid var(--panel); margin-left: -6px; }
+.design-dot:first-child { margin-left: 0; background: linear-gradient(145deg,#64748B,#334155); }
+.design-dot#designDotAccent { background: linear-gradient(145deg, var(--accent), var(--accent-2)); }
+
+/* --- Профиль канала (попап при клике) --- */
+.channel-profile-modal { max-width: 340px; padding: 20px 18px 18px; position: relative; }
+.channel-profile-close { position: absolute; top: 10px; right: 10px; }
+.channel-profile-body { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.channel-profile-avatar { width: 84px; height: 84px; font-size: 28px; border-radius: 50% !important; margin-bottom: 12px; }
+.channel-profile-name { font-size: 17px; font-weight: 700; }
+.channel-profile-subs { font-size: 13px; color: var(--text-dim); margin-top: 2px; margin-bottom: 16px; }
+.channel-profile-actions { display: flex; gap: 6px; width: 100%; margin-bottom: 14px; }
+.channel-profile-action {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 10px 4px; border-radius: 12px; background: var(--panel-2); color: var(--text);
+  font-size: 11px; font-weight: 600; transition: background .12s;
+}
+.channel-profile-action:hover { background: var(--hover); }
+.channel-profile-action.active { background: var(--danger-soft); color: var(--danger); }
+.channel-profile-action.active .icon { color: var(--danger); }
+.channel-profile-action .icon { color: var(--accent); }
+.channel-profile-more-menu {
+  display: none; flex-direction: column; width: 100%; margin: -6px 0 14px; border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+}
+.channel-profile-more-menu.visible { display: flex; }
+.channel-profile-more-menu button { text-align: left; padding: 11px 14px; font-size: 13.5px; border-bottom: 1px solid var(--border); }
+.channel-profile-more-menu button:last-child { border-bottom: none; }
+.channel-profile-more-menu button.danger { color: var(--danger); }
+.channel-profile-info-row { width: 100%; text-align: left; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.channel-profile-info-main { font-size: 13.5px; color: var(--accent); word-break: break-all; }
+.channel-profile-info-label { font-size: 11.5px; color: var(--text-dim); margin-top: 2px; }
+.channel-profile-open-btn {
+  width: 100%; margin-top: 16px; padding: 11px; border-radius: 10px; background: var(--accent-soft);
+  color: var(--accent); font-weight: 700; font-size: 13.5px; letter-spacing: .3px;
+}
+.channel-profile-open-btn:hover { background: var(--accent-muted); }
+.channel-profile-stats { width: 100%; margin-top: 14px; display: flex; flex-direction: column; }
+.channel-profile-stats .stat-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; text-align: left; }
+.channel-profile-stats .stat-row:last-child { border-bottom: none; }
+.channel-profile-stats .stat-row .icon { color: var(--text-dim); flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -2615,7 +2674,7 @@ img.premium-badge {
 <div class="overlay" id="serverSettingsOverlay" onclick="if(event.target===this)closeServerSettings()">
   <div class="modal">
     <div class="modal-header">
-      <h2>Настройки канала</h2>
+      <h2>Редактировать канал</h2>
       <button class="modal-close-btn" onclick="closeServerSettings()">
         <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -2623,28 +2682,85 @@ img.premium-badge {
     <div class="modal-body">
 
       <div class="settings-group">
-        <div class="group-title">Общее</div>
-        <div class="field">
-          <label>Название канала</label>
-          <input type="text" id="serverNameInput" maxlength="40" oninput="onServerNameInput()">
+        <div class="channel-edit-head">
+          <div class="avatar-colors-wrap">
+            <div class="avatar server-avatar channel-edit-avatar" id="serverEditAvatar"></div>
+          </div>
+          <div class="field" style="margin-bottom:0;flex:1;">
+            <label>Название канала</label>
+            <input type="text" id="serverNameInput" maxlength="40" oninput="onServerNameInput()">
+          </div>
         </div>
-        <div class="avatar-colors" id="serverColors" style="margin-top:8px;"></div>
-      </div>
-
-      <div class="settings-group">
-        <div class="group-title">Каналы</div>
-        <div id="serverChannelManageList"></div>
-        <div class="add-channel-row">
-          <input type="text" placeholder="Название канала" id="newChannelName" maxlength="30">
-          <select id="newChannelType">
-            <option value="text">Текстовый</option>
-            <option value="voice">Голосовой</option>
-          </select>
-          <button class="btn-sm" onclick="addChannel()">+</button>
+        <div class="field" style="margin-top:12px;">
+          <label>Описание</label>
+          <input type="text" id="serverBioInput" maxlength="120" placeholder="Например: Официальный канал…" oninput="onServerBioInput()">
         </div>
       </div>
 
       <div class="settings-group">
+        <div class="settings-row settings-row-nav" id="channelTypeRow" onclick="toggleChannelType()">
+          <div class="label">Тип канала</div>
+          <div class="row-value" id="channelTypeValue">Публичный</div>
+        </div>
+        <div class="settings-row settings-row-nav" id="channelDiscussionRow" onclick="toggleDiscussion()">
+          <div class="label">Обсуждение</div>
+          <div class="row-value" id="channelDiscussionValue">Выкл.</div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="label">Сообщения канала <span class="new-badge">НОВОЕ</span></div>
+            <div class="desc">Подписчики смогут писать сообщения в канал</div>
+          </div>
+          <div class="switch" id="switch-channelMessages" onclick="toggleChannelBoolField('messagesEnabled', this)"></div>
+        </div>
+        <div class="settings-row settings-row-nav" onclick="openChannelDesign()">
+          <div class="label">Оформление</div>
+          <div class="row-value"><span class="design-dot" id="designDotLight"></span><span class="design-dot" id="designDotAccent"></span></div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="label">Переводить сообщения</div>
+          </div>
+          <div class="switch" id="switch-translateMessages" onclick="toggleChannelBoolField('translateMessages', this)"></div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="label">Подписывать сообщения</div>
+          </div>
+          <div class="switch" id="switch-signMessages" onclick="toggleChannelBoolField('signMessages', this)"></div>
+        </div>
+        <div class="settings-row" style="border-bottom:none;">
+          <div>
+            <div class="label">Показывать профили авторов</div>
+          </div>
+          <div class="switch" id="switch-showAuthorProfiles" onclick="toggleChannelBoolField('showAuthorProfiles', this)"></div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-row settings-row-nav" onclick="openChannelReactionsInfo()">
+          <div class="label">Реакции</div>
+          <div class="row-value" id="channelReactionsCount">0</div>
+        </div>
+        <div class="settings-row settings-row-nav" onclick="openChannelInviteSection()">
+          <div class="label">Пригласительные ссылки</div>
+          <div class="row-value">1</div>
+        </div>
+        <div class="settings-row settings-row-nav" onclick="openChannelAdminsList()">
+          <div class="label">Администраторы</div>
+          <div class="row-value" id="channelAdminsCount">0</div>
+        </div>
+        <div class="settings-row settings-row-nav" onclick="openChannelMembersList()">
+          <div class="label">Подписчики</div>
+          <div class="row-value" id="serverMemberCount">0</div>
+        </div>
+        <div class="settings-row settings-row-nav" style="border-bottom:none;" onclick="openChannelBlacklist()">
+          <div class="label">Чёрный список</div>
+          <div class="row-value" id="channelBlacklistCount">0</div>
+        </div>
+      </div>
+
+      <div class="settings-group" id="channelInviteSection" style="display:none;">
         <div class="group-title">Приглашение</div>
         <div class="invite-row">
           <div class="code-display" id="serverInviteCode">——————</div>
@@ -2653,9 +2769,20 @@ img.premium-badge {
         <button class="link-btn" style="margin-top:10px;" onclick="regenerateInvite()">Сгенерировать новый код</button>
       </div>
 
-      <div class="settings-group">
-        <div class="group-title">Участники (<span id="serverMemberCount">0</span>)</div>
+      <div class="settings-group" id="channelAdminsSection" style="display:none;">
+        <div class="group-title">Администраторы</div>
+        <div id="serverAdminsList"></div>
+      </div>
+
+      <div class="settings-group" id="channelMembersSection" style="display:none;">
+        <div class="group-title">Подписчики (<span id="serverMemberCount2">0</span>)</div>
         <div id="serverMembersList"></div>
+      </div>
+
+      <div class="settings-group" id="channelBlacklistSection" style="display:none;">
+        <div class="group-title">Чёрный список</div>
+        <div id="serverBlacklistList"></div>
+        <div class="empty-hint" id="serverBlacklistEmpty" style="display:none;">Никто не заблокирован</div>
       </div>
 
       <div class="settings-group">
@@ -2671,13 +2798,64 @@ img.premium-badge {
           <div class="settings-row" style="border-bottom:none; padding-bottom:0;" id="deleteServerRow">
             <div>
               <div class="label">Удалить канал</div>
-              <div class="desc">Сервер и все каналы будут удалены безвозвратно</div>
+              <div class="desc">Канал будет удалён безвозвратно вместе со всей историей</div>
             </div>
             <button class="link-btn danger" onclick="deleteServer()">Удалить</button>
           </div>
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- CHANNEL PROFILE POPUP -->
+<div class="overlay" id="channelProfileOverlay" onclick="if(event.target===this)closeChannelProfile()">
+  <div class="modal channel-profile-modal">
+    <button class="modal-close-btn channel-profile-close" onclick="closeChannelProfile()">
+      <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="channel-profile-body">
+      <div class="avatar server-avatar channel-profile-avatar" id="channelProfileAvatar"></div>
+      <div class="channel-profile-name" id="channelProfileName"></div>
+      <div class="channel-profile-subs" id="channelProfileSubs"></div>
+
+      <div class="channel-profile-actions">
+        <button class="channel-profile-action" id="channelProfileMuteBtn" onclick="toggleChannelMute()">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span id="channelProfileMuteLabel">Звук</span>
+        </button>
+        <button class="channel-profile-action" id="channelProfileDiscussionBtn" onclick="openChannelDiscussionFromProfile()">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Обсуждение</span>
+        </button>
+        <button class="channel-profile-action" id="channelProfileManageBtn" onclick="closeChannelProfile();openServerSettings();">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Управление</span>
+        </button>
+        <button class="channel-profile-action" onclick="toggleChannelProfileMore()">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+          <span>Ещё</span>
+        </button>
+      </div>
+      <div class="channel-profile-more-menu" id="channelProfileMoreMenu">
+        <button onclick="copyInviteCode();toggleChannelProfileMore();">Скопировать ссылку</button>
+        <button onclick="showToastGlobal('Жалоба отправлена');toggleChannelProfileMore();">Пожаловаться</button>
+        <button class="danger" id="channelProfileLeaveBtn" onclick="closeChannelProfile();leaveServer();">Покинуть канал</button>
+      </div>
+
+      <div class="channel-profile-info-row">
+        <div class="channel-profile-info-main" id="channelProfileLink"></div>
+        <div class="channel-profile-info-label">Ссылка</div>
+      </div>
+      <div class="channel-profile-info-row" id="channelProfileBioRow">
+        <div class="channel-profile-info-main" id="channelProfileBio"></div>
+        <div class="channel-profile-info-label">Информация</div>
+      </div>
+
+      <button class="channel-profile-open-btn" onclick="closeChannelProfile()">ОТКРЫТЬ КАНАЛ</button>
+
+      <div class="channel-profile-stats" id="channelProfileStats"></div>
     </div>
   </div>
 </div>
@@ -3137,7 +3315,8 @@ let settings = {
   autoJoinVoice: false,
   passcode: false,
   fontSize: '14',
-  density: 'normal'
+  density: 'normal',
+  mutedChannels: []
 };
 let currentUser = null;
 let searchQuery = '';
@@ -3589,7 +3768,7 @@ async function renderChatHeaderIdentity(login) {
   const nameStyle = await nicknameStyleFor(login);
   if (activeChat !== login) return;
   const nameEl = document.getElementById('chatHeaderName');
-  nameEl.innerHTML = '@' + login + verifiedBadgeHTML(login);
+  nameEl.innerHTML = '@' + login + allBadgesHTML(login);
   nameEl.setAttribute('style', nameStyle);
   const u = usersCache[login.toLowerCase()];
   paintAvatar('chatHeaderAvatar', {
@@ -3631,6 +3810,22 @@ const EARLY_SUPPORTER_IMG = '<span class="early-supporter-badge" title="Ранн
 function verifiedBadgeHTML(login) {
   const u = usersCache[(login || '').toLowerCase()];
   return ((u && u.verified) ? VERIFIED_SVG : '') + ((u && u.earlySupporter) ? EARLY_SUPPORTER_IMG : '');
+}
+
+// Полный набор значков пользователя (Pro-корона + подтверждённый + ранний
+// поддержавший), виден всем, где бы ни отображалось имя — список друзей,
+// сети/каналы, участники сервера и т.д. Для собственного профиля берём
+// актуальные данные из profile/VERIFIED_LOGINS/EARLY_SUPPORTER_LOGINS,
+// для остальных — из usersCache.
+function allBadgesHTML(login) {
+  const isMe = (login || '').toLowerCase() === (profile.login || '').toLowerCase();
+  if (isMe) {
+    return (profile.premium ? ' ' + CROWN_SVG : '')
+      + (VERIFIED_LOGINS.includes((profile.login || '').toLowerCase()) ? VERIFIED_SVG : '')
+      + (EARLY_SUPPORTER_LOGINS.includes((profile.login || '').toLowerCase()) ? EARLY_SUPPORTER_IMG : '');
+  }
+  const u = usersCache[(login || '').toLowerCase()];
+  return ((u && u.premium) ? ' ' + CROWN_SVG : '') + verifiedBadgeHTML(login);
 }
 
 function refreshProfileUI() {
@@ -4431,7 +4626,7 @@ async function openUserProfile(login) {
     avatarColor: u ? (u.avatarColor || 0) : 0,
     displayName: u ? (u.displayName || u.login) : login
   }, 'profile-card-avatar');
-  document.getElementById('profileCardName').innerHTML = (u ? (u.displayName || u.login) : login) + verifiedBadgeHTML(login);
+  document.getElementById('profileCardName').innerHTML = (u ? (u.displayName || u.login) : login) + allBadgesHTML(login);
   document.getElementById('profileCardUsername').textContent = '@' + login;
 
   const regRow = document.getElementById('profileCardRegDateRow');
@@ -6611,7 +6806,7 @@ function renderChatListItemHTML(f) {
     <div class="list-item${isActive ? ' active' : ''}${meta.unread ? ' has-unread' : ''}" onclick="openChat('${f.login}')" oncontextmenu="event.preventDefault();openChatMenu(event.clientX, event.clientY, '${f.login}');">
       ${avatarDivHTML(f.login)}
       <div class="meta">
-        <div class="name"><span style="${nickStyle}">@${f.login}</span>${verifiedBadgeHTML(f.login)}${isOnline ? '<span class="online-dot"></span>' : ''}${badges}</div>
+        <div class="name"><span style="${nickStyle}">@${f.login}</span>${allBadgesHTML(f.login)}${isOnline ? '<span class="online-dot"></span>' : ''}${badges}</div>
         <div class="snippet">${snippet.replace(/</g, '&lt;')}</div>
       </div>
       ${meta.unread ? '<span class="chat-unread-dot"></span>' : ''}
@@ -6844,13 +7039,22 @@ async function createServer() {
   const invite = generateInviteCode();
   const server = {
     id, name,
+    bio: '',
     iconColor: Math.floor(Math.random() * AVATAR_GRADIENTS.length),
     ownerLogin: currentUser,
     members: [currentUser],
+    admins: [],
+    blacklist: [],
     channels: [
       { id: uid(), name: 'общий', type: 'text' }
     ],
     invite,
+    type: 'public',
+    discussionEnabled: false,
+    messagesEnabled: false,
+    signMessages: true,
+    showAuthorProfiles: true,
+    translateMessages: false,
     createdAt: Date.now()
   };
   await dbSet('server:' + id, server, true);
@@ -6907,43 +7111,48 @@ function closeChannelView() {
   renderList();
 }
 
+// Владелец и админы канала — им можно публиковать посты и управлять
+// каналом. Обычные подписчики могут писать, только если включена
+// настройка «Сообщения канала» (см. openServerSettings).
+function isChannelOwner(server) {
+  return !!server && server.ownerLogin.toLowerCase() === currentUser.toLowerCase();
+}
+function isChannelAdmin(server) {
+  return !!server && (isChannelOwner(server) || (server.admins || []).some(a => a.toLowerCase() === currentUser.toLowerCase()));
+}
+function canPostInChannel(server) {
+  return !!server && (isChannelAdmin(server) || !!server.messagesEnabled);
+}
+
 function renderServerChat(server, channel) {
   const msgs = serverMessages[channel.id] || [];
   const body = document.getElementById('chatBody');
   const g = AVATAR_GRADIENTS[server.iconColor % AVATAR_GRADIENTS.length];
+  const canPost = canPostInChannel(server);
+  const canManage = isChannelAdmin(server);
   const listHtml = msgs.map(m => {
-    const isMe = m.from.toLowerCase() === profile.login.toLowerCase();
+    const isAdminPost = isLoginServerAdmin(server, m.from);
+    const showAsChannel = isAdminPost && server.signMessages === false;
     const mg = AVATAR_GRADIENTS[Math.abs(hashStr(m.from)) % AVATAR_GRADIENTS.length];
-    const senderU = isMe ? profile : usersCache[m.from.toLowerCase()];
+    const senderU = usersCache[m.from.toLowerCase()] || (m.from.toLowerCase() === profile.login.toLowerCase() ? profile : null);
     const nickStyle = nicknameStyleFromUser(senderU);
+    const avatarHtml = showAsChannel
+      ? `<div class="avatar server-avatar" style="background:linear-gradient(145deg, ${g[0]}, ${g[1]})">${initials(server.name)}</div>`
+      : `<div class="avatar" style="background:linear-gradient(145deg, ${mg[0]}, ${mg[1]})">${initials(m.from)}</div>`;
+    const whoHtml = showAsChannel
+      ? `<span class="who">${server.name.replace(/</g,'&lt;')}</span>`
+      : `<span class="who" style="${nickStyle}">@${m.from}${server.showAuthorProfiles === false ? '' : allBadgesHTML(m.from)}</span>`;
     return `
       <div class="server-msg">
-        <div class="avatar" style="background:linear-gradient(145deg, ${mg[0]}, ${mg[1]})">${initials(m.from)}</div>
+        ${avatarHtml}
         <div class="body">
-          <div class="head"><span class="who" style="${nickStyle}">@${m.from}${isMe && profile.premium ? ' ' + CROWN_SVG : ''}</span><span class="when">${formatTime(m.ts)}</span></div>
+          <div class="head">${whoHtml}<span class="when">${formatTime(m.ts)}</span></div>
           <div class="text">${m.sticker ? m.sticker : (m.text || '').replace(/</g,'&lt;')}</div>
+          ${renderServerReactionsHTML(server, channel, m)}
         </div>
       </div>`;
   }).join('');
-  body.innerHTML = `
-    <div class="chat-body" style="display:flex;flex-direction:column;height:100%;">
-      <div class="chat-header visible">
-        <button class="header-btn mobile-back-btn" onclick="closeChannelView()" title="Назад">
-          <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        </button>
-        <div class="avatar server-avatar" style="width:40px;height:40px;font-size:14px;background:linear-gradient(145deg, ${g[0]}, ${g[1]})">${initials(server.name)}</div>
-        <div class="info">
-          <div class="name">${server.name.replace(/</g,'&lt;')}</div>
-          <div class="status" style="gap:8px;"><span>${server.members.length} ${memberWord(server.members.length)}</span></div>
-        </div>
-        <div class="header-actions">
-          <button class="header-btn" onclick="openServerSettings()" title="Настройки канала">
-            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="chat-messages" id="serverMsgScroll">${listHtml || '<div class="empty-state"><div class="desc">Пока нет сообщений. Начните разговор!</div></div>'}</div>
-      <div class="chat-input-wrap">
+  const inputHtml = canPost ? `
         <div class="chat-input-row">
           <div class="input-box">
             <textarea id="serverMsgInput" rows="1" placeholder="Написать в канал" onkeydown="onServerMsgKey(event)" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"></textarea>
@@ -6951,11 +7160,101 @@ function renderServerChat(server, channel) {
           <button class="send-btn" onclick="sendServerMessage()" title="Отправить">
             <svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
+        </div>` : `
+        <div class="channel-readonly-note">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Писать сюда может только владелец канала
+        </div>`;
+  body.innerHTML = `
+    <div class="chat-body" style="display:flex;flex-direction:column;height:100%;">
+      <div class="chat-header visible">
+        <button class="header-btn mobile-back-btn" onclick="closeChannelView()" title="Назад">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <div class="header-clickable-info" onclick="openChannelProfile()" style="display:flex;align-items:center;gap:10px;flex:1;min-width:0;cursor:pointer;">
+          <div class="avatar server-avatar" style="width:40px;height:40px;font-size:14px;background:linear-gradient(145deg, ${g[0]}, ${g[1]})">${initials(server.name)}</div>
+          <div class="info">
+            <div class="name">${server.name.replace(/</g,'&lt;')}</div>
+            <div class="status" style="gap:8px;"><span>${server.members.length} ${memberWord(server.members.length)}</span></div>
+          </div>
+        </div>
+        <div class="header-actions">
+          ${canManage ? `<button class="header-btn" onclick="openServerSettings()" title="Настройки канала">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>` : ''}
         </div>
       </div>
+      <div class="chat-messages" id="serverMsgScroll">${listHtml || '<div class="empty-state"><div class="desc">Пока нет сообщений. Начните разговор!</div></div>'}</div>
+      <div class="chat-input-wrap">${inputHtml}</div>
     </div>`;
   const scrollEl = document.getElementById('serverMsgScroll');
   if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
+}
+
+function isLoginServerAdmin(server, login) {
+  const l = (login || '').toLowerCase();
+  return server.ownerLogin.toLowerCase() === l || (server.admins || []).some(a => a.toLowerCase() === l);
+}
+
+/* ===== Реакции на сообщения канала ===== */
+const CHANNEL_REACTION_EMOJIS = ['👍','❤️','🔥','😂','😮'];
+
+function renderServerReactionsHTML(server, channel, m) {
+  const reacts = m.reactions || {};
+  const chips = Object.keys(reacts).filter(e => reacts[e] && reacts[e].length).map(emoji => {
+    const list = reacts[emoji];
+    const mine = list.some(l => l.toLowerCase() === currentUser.toLowerCase());
+    return `<button class="reaction-chip${mine ? ' mine' : ''}" onclick="toggleServerReaction('${channel.id}','${m.id}','${emoji}')">${emoji}<span class="cnt">${list.length}</span></button>`;
+  }).join('');
+  return `<div class="reactions server-reactions">${chips}<button class="reaction-chip add-reaction" onclick="openServerReactionPicker(event,'${channel.id}','${m.id}')">+</button></div>`;
+}
+
+function openServerReactionPicker(e, channelId, msgId) {
+  e.stopPropagation();
+  closeAllReactPopovers();
+  const existing = document.getElementById('serverReactPopover');
+  if (existing) existing.remove();
+  const pop = document.createElement('div');
+  pop.id = 'serverReactPopover';
+  pop.className = 'react-popover visible';
+  pop.style.position = 'fixed';
+  const rect = e.currentTarget.getBoundingClientRect();
+  pop.style.left = Math.max(8, rect.left - 100) + 'px';
+  pop.style.top = (rect.top - 46) + 'px';
+  pop.innerHTML = CHANNEL_REACTION_EMOJIS.map(em => `<button onclick="toggleServerReaction('${channelId}','${msgId}','${em}');this.parentElement.remove();">${em}</button>`).join('');
+  document.body.appendChild(pop);
+  setTimeout(() => document.addEventListener('click', function h(ev) {
+    if (!pop.contains(ev.target)) { pop.remove(); document.removeEventListener('click', h); }
+  }), 0);
+}
+
+function closeAllReactPopovers() {
+  const p = document.getElementById('serverReactPopover');
+  if (p) p.remove();
+}
+
+async function toggleServerReaction(channelId, msgId, emoji) {
+  const list = serverMessages[channelId] || [];
+  const m = list.find(x => x.id === msgId);
+  if (!m) return;
+  if (!m.reactions) m.reactions = {};
+  const arr = m.reactions[emoji] || (m.reactions[emoji] = []);
+  const idx = arr.findIndex(l => l.toLowerCase() === currentUser.toLowerCase());
+  if (idx >= 0) { arr.splice(idx, 1); if (arr.length === 0) delete m.reactions[emoji]; }
+  else { arr.push(currentUser); }
+  const server = servers.find(s => s.id === activeServerId);
+  const channel = server && server.channels.find(c => c.id === channelId);
+  if (server && channel) renderServerChat(server, channel);
+  await dbSet('serverchat:' + activeServerId + ':' + channelId, list, true);
+}
+
+function totalServerReactions(server) {
+  let count = 0;
+  (server.channels || []).forEach(c => {
+    const msgs = serverMessages[c.id] || [];
+    msgs.forEach(m => { const r = m.reactions || {}; Object.keys(r).forEach(e => count += (r[e] || []).length); });
+  });
+  return count;
 }
 
 function hashStr(s) {
@@ -6974,15 +7273,16 @@ function onServerMsgKey(e) {
 async function sendServerMessage() {
   const input = document.getElementById('serverMsgInput');
   if (!input || !activeServerId || !activeChannelId) return;
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !canPostInChannel(server)) { showToastGlobal('Писать сюда может только владелец канала'); return; }
   const text = input.value.trim();
   if (!text) return;
-  const msg = { id: uid(), from: profile.login, text, ts: Date.now() };
+  const msg = { id: uid(), from: profile.login, text, ts: Date.now(), reactions: {} };
   if (!serverMessages[activeChannelId]) serverMessages[activeChannelId] = [];
   serverMessages[activeChannelId].push(msg);
   input.value = '';
   input.style.height = 'auto';
-  const server = servers.find(s => s.id === activeServerId);
-  const channel = server && server.channels.find(c => c.id === activeChannelId);
+  const channel = server.channels.find(c => c.id === activeChannelId);
   if (server && channel) renderServerChat(server, channel);
   await dbSet('serverchat:' + activeServerId + ':' + activeChannelId, serverMessages[activeChannelId], true);
 }
@@ -6992,29 +7292,236 @@ async function sendServerMessage() {
 function openServerSettings() {
   const server = servers.find(s => s.id === activeServerId);
   if (!server) return;
-  const isOwner = server.ownerLogin.toLowerCase() === currentUser.toLowerCase();
+  const isOwner = isChannelOwner(server);
+  const isAdmin = isChannelAdmin(server);
+  if (!isAdmin) { showToastGlobal('Управлять каналом могут только владелец и администраторы'); return; }
   document.getElementById('serverNameInput').value = server.name;
   document.getElementById('serverNameInput').disabled = !isOwner;
+  document.getElementById('serverBioInput').value = server.bio || '';
+  document.getElementById('serverBioInput').disabled = !isOwner;
   document.getElementById('serverInviteCode').textContent = server.invite;
   document.getElementById('leaveServerRow').style.display = isOwner ? 'none' : 'flex';
   document.getElementById('deleteServerRow').style.display = isOwner ? 'flex' : 'none';
 
-  const colorsWrap = document.getElementById('serverColors');
-  colorsWrap.innerHTML = AVATAR_GRADIENTS.map((g, i) =>
-    `<div class="swatch${server.iconColor === i ? ' active' : ''}" style="background:linear-gradient(145deg, ${g[0]}, ${g[1]});${isOwner ? '' : 'opacity:.5;pointer-events:none;'}" onclick="setServerColor(${i})"></div>`
-  ).join('');
+  const g = AVATAR_GRADIENTS[server.iconColor % AVATAR_GRADIENTS.length];
+  const avatarEl = document.getElementById('serverEditAvatar');
+  avatarEl.style.background = `linear-gradient(145deg, ${g[0]}, ${g[1]})`;
+  avatarEl.textContent = initials(server.name);
 
-  const membersWrap = document.getElementById('serverMembersList');
+  document.getElementById('channelTypeValue').textContent = server.type === 'private' ? 'Приватный' : 'Публичный';
+  document.getElementById('channelDiscussionValue').textContent = server.discussionEnabled ? 'Вкл.' : 'Выкл.';
+  setSwitchOn('switch-channelMessages', !!server.messagesEnabled);
+  setSwitchOn('switch-translateMessages', !!server.translateMessages);
+  setSwitchOn('switch-signMessages', server.signMessages !== false);
+  setSwitchOn('switch-showAuthorProfiles', server.showAuthorProfiles !== false);
+
+  document.getElementById('channelReactionsCount').textContent = totalServerReactions(server);
+  document.getElementById('channelAdminsCount').textContent = (server.admins || []).length;
   document.getElementById('serverMemberCount').textContent = server.members.length;
-  membersWrap.innerHTML = server.members.map(login => `
+  document.getElementById('channelBlacklistCount').textContent = (server.blacklist || []).length;
+
+  // Только владелец/админ может менять настройки — не-владельцу
+  // недоступны переключатели и опасная зона.
+  document.querySelectorAll('#serverSettingsOverlay .switch').forEach(sw => {
+    sw.classList.toggle('locked', !isOwner);
+  });
+  document.getElementById('channelTypeRow').style.pointerEvents = isOwner ? 'auto' : 'none';
+  document.getElementById('channelDiscussionRow').style.pointerEvents = isOwner ? 'auto' : 'none';
+
+  renderChannelMembersList(server, isOwner);
+  renderChannelAdminsList(server, isOwner);
+  renderChannelBlacklist(server, isOwner);
+  // При каждом открытии скрываем развёрнутые подсекции — начинаем с общего вида.
+  ['channelInviteSection','channelAdminsSection','channelMembersSection','channelBlacklistSection'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('serverSettingsOverlay').classList.add('visible');
+}
+
+function setSwitchOn(id, on) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('on', on);
+}
+
+function onServerBioInput() {
+  clearTimeout(window.__serverBioTimer);
+  window.__serverBioTimer = setTimeout(async () => {
+    const server = servers.find(s => s.id === activeServerId);
+    if (!server || !isChannelOwner(server)) return;
+    server.bio = document.getElementById('serverBioInput').value.trim();
+    await persistActiveServer(server);
+  }, 250);
+}
+
+async function toggleChannelType() {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !isChannelOwner(server)) return;
+  server.type = server.type === 'private' ? 'public' : 'private';
+  await persistActiveServer(server);
+  document.getElementById('channelTypeValue').textContent = server.type === 'private' ? 'Приватный' : 'Публичный';
+  showToastGlobal(server.type === 'private' ? 'Канал теперь приватный' : 'Канал теперь публичный');
+}
+
+async function toggleDiscussion() {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !isChannelOwner(server)) return;
+  server.discussionEnabled = !server.discussionEnabled;
+  await persistActiveServer(server);
+  document.getElementById('channelDiscussionValue').textContent = server.discussionEnabled ? 'Вкл.' : 'Выкл.';
+  showToastGlobal(server.discussionEnabled ? 'Обсуждение включено' : 'Обсуждение выключено');
+}
+
+async function toggleChannelBoolField(field, el) {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !isChannelOwner(server)) return;
+  server[field] = !server[field];
+  el.classList.toggle('on', !!server[field]);
+  await persistActiveServer(server);
+  if (activeChannelId) {
+    const channel = server.channels.find(c => c.id === activeChannelId);
+    if (channel) renderServerChat(server, channel);
+  }
+}
+
+function openChannelDesign() {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server) return;
+  const isOwner = isChannelOwner(server);
+  showColorPickerSheet(AVATAR_GRADIENTS.map((g, i) =>
+    `<div class="swatch${server.iconColor === i ? ' active' : ''}" style="background:linear-gradient(145deg, ${g[0]}, ${g[1]});${isOwner ? '' : 'opacity:.5;pointer-events:none;'}" onclick="setServerColor(${i});closeColorPickerSheet();"></div>`
+  ).join(''));
+}
+
+function showColorPickerSheet(swatchesHtml) {
+  let sheet = document.getElementById('channelDesignSheet');
+  if (!sheet) {
+    sheet = document.createElement('div');
+    sheet.id = 'channelDesignSheet';
+    sheet.className = 'overlay';
+    sheet.onclick = (e) => { if (e.target === sheet) closeColorPickerSheet(); };
+    sheet.innerHTML = `<div class="modal" style="max-width:320px;">
+      <div class="modal-header"><h2>Оформление</h2>
+        <button class="modal-close-btn" onclick="closeColorPickerSheet()"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="modal-body"><div class="avatar-colors" id="channelDesignSwatches"></div></div>
+    </div>`;
+    document.body.appendChild(sheet);
+  }
+  document.getElementById('channelDesignSwatches').innerHTML = swatchesHtml;
+  sheet.classList.add('visible');
+}
+function closeColorPickerSheet() {
+  const sheet = document.getElementById('channelDesignSheet');
+  if (sheet) sheet.classList.remove('visible');
+}
+
+function openChannelReactionsInfo() {
+  showToastGlobal('Реакции доступны всем подписчикам под каждым постом');
+}
+
+function openChannelInviteSection() {
+  toggleSubSection('channelInviteSection');
+}
+function openChannelMembersList() {
+  toggleSubSection('channelMembersSection');
+}
+function openChannelAdminsList() {
+  toggleSubSection('channelAdminsSection');
+}
+function openChannelBlacklist() {
+  toggleSubSection('channelBlacklistSection');
+}
+function toggleSubSection(id) {
+  const el = document.getElementById(id);
+  const opening = el.style.display === 'none';
+  ['channelInviteSection','channelAdminsSection','channelMembersSection','channelBlacklistSection'].forEach(x => {
+    document.getElementById(x).style.display = 'none';
+  });
+  el.style.display = opening ? 'block' : 'none';
+  if (opening) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderChannelMembersList(server, isOwner) {
+  const membersWrap = document.getElementById('serverMembersList');
+  document.getElementById('serverMemberCount2').textContent = server.members.length;
+  membersWrap.innerHTML = server.members.map(login => {
+    const isOnline = login.toLowerCase() === profile.login.toLowerCase() || onlineUsers.includes(login.toLowerCase());
+    const isAdm = isLoginServerAdmin(server, login);
+    return `
+    <div class="member-row">
+      ${avatarDivHTML(login, 'avatar-sm')}
+      <div class="name">@${login}${allBadgesHTML(login)}${isOnline ? '<span class="online-dot"></span>' : ''}</div>
+      ${login.toLowerCase() === server.ownerLogin.toLowerCase() ? '<span class="owner-tag">Владелец</span>' :
+        (isOwner ? `${isAdm ? '<span class="admin-tag">Админ</span>' : ''}<button class="req-btn" title="${isAdm ? 'Разжаловать' : 'Сделать админом'}" onclick="toggleAdminRole('${login.replace(/'/g,"\\'")}')">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg>
+        </button><button class="req-btn decline" title="Заблокировать" onclick="banMember('${login.replace(/'/g,"\\'")}')"><svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>` : '')}
+    </div>`;
+  }).join('');
+}
+
+function renderChannelAdminsList(server, isOwner) {
+  const wrap = document.getElementById('serverAdminsList');
+  const admins = server.admins || [];
+  if (!admins.length) { wrap.innerHTML = '<div class="empty-hint">Пока нет администраторов</div>'; return; }
+  wrap.innerHTML = admins.map(login => `
+    <div class="member-row">
+      ${avatarDivHTML(login, 'avatar-sm')}
+      <div class="name">@${login}${allBadgesHTML(login)}</div>
+      <span class="admin-tag">Админ</span>
+      ${isOwner ? `<button class="req-btn decline" title="Разжаловать" onclick="toggleAdminRole('${login.replace(/'/g,"\\'")}')"><svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>` : ''}
+    </div>`).join('');
+}
+
+function renderChannelBlacklist(server, isOwner) {
+  const wrap = document.getElementById('serverBlacklistList');
+  const list = server.blacklist || [];
+  document.getElementById('serverBlacklistEmpty').style.display = list.length ? 'none' : 'block';
+  wrap.innerHTML = list.map(login => `
     <div class="member-row">
       ${avatarDivHTML(login, 'avatar-sm')}
       <div class="name">@${login}</div>
-      ${login.toLowerCase() === server.ownerLogin.toLowerCase() ? '<span class="owner-tag">Владелец</span>' : (isOwner ? `<button class="req-btn decline" title="Исключить" onclick="kickMember('${login.replace(/'/g,"\\'")}')"><svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>` : '')}
+      ${isOwner ? `<button class="link-btn" onclick="unbanMember('${login.replace(/'/g,"\\'")}')">Разблокировать</button>` : ''}
     </div>`).join('');
+}
 
-  renderServerChannelManageList(server, isOwner);
-  document.getElementById('serverSettingsOverlay').classList.add('visible');
+async function toggleAdminRole(login) {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !isChannelOwner(server)) return;
+  server.admins = server.admins || [];
+  const idx = server.admins.findIndex(a => a.toLowerCase() === login.toLowerCase());
+  if (idx >= 0) { server.admins.splice(idx, 1); showToastGlobal('@' + login + ' больше не администратор'); }
+  else { server.admins.push(login); showToastGlobal('@' + login + ' назначен администратором'); }
+  await persistActiveServer(server);
+  document.getElementById('channelAdminsCount').textContent = server.admins.length;
+  renderChannelMembersList(server, true);
+  renderChannelAdminsList(server, true);
+}
+
+async function banMember(login) {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !isChannelOwner(server)) return;
+  if (!confirm('Заблокировать @' + login + ' и удалить из канала?')) return;
+  server.members = server.members.filter(m => m.toLowerCase() !== login.toLowerCase());
+  server.admins = (server.admins || []).filter(a => a.toLowerCase() !== login.toLowerCase());
+  server.blacklist = server.blacklist || [];
+  if (!server.blacklist.some(b => b.toLowerCase() === login.toLowerCase())) server.blacklist.push(login);
+  await persistActiveServer(server);
+  document.getElementById('serverMemberCount').textContent = server.members.length;
+  document.getElementById('channelBlacklistCount').textContent = server.blacklist.length;
+  renderChannelMembersList(server, true);
+  renderChannelAdminsList(server, true);
+  renderChannelBlacklist(server, true);
+  showToastGlobal('@' + login + ' заблокирован(а)');
+}
+
+async function unbanMember(login) {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !isChannelOwner(server)) return;
+  server.blacklist = (server.blacklist || []).filter(b => b.toLowerCase() !== login.toLowerCase());
+  await persistActiveServer(server);
+  document.getElementById('channelBlacklistCount').textContent = server.blacklist.length;
+  renderChannelBlacklist(server, true);
+  showToastGlobal('@' + login + ' разблокирован(а)');
 }
 
 const CHANNEL_TEXT_ICON = '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>';
@@ -7071,6 +7578,97 @@ async function deleteChannel(channelId) {
 
 function closeServerSettings() {
   document.getElementById('serverSettingsOverlay').classList.remove('visible');
+}
+
+/* ===== Профиль канала — popup при клике на шапку чата ===== */
+
+function computeChannelStats(server) {
+  let publications = 0, links = 0;
+  const urlRe = /https?:\/\/\S+/gi;
+  (server.channels || []).forEach(c => {
+    const msgs = serverMessages[c.id] || [];
+    publications += msgs.length;
+    msgs.forEach(m => { const found = (m.text || '').match(urlRe); if (found) links += found.length; });
+  });
+  return { publications, links };
+}
+
+function openChannelProfile() {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server) return;
+  const isOwner = isChannelOwner(server);
+  const g = AVATAR_GRADIENTS[server.iconColor % AVATAR_GRADIENTS.length];
+
+  const avatarEl = document.getElementById('channelProfileAvatar');
+  avatarEl.style.background = `linear-gradient(145deg, ${g[0]}, ${g[1]})`;
+  avatarEl.textContent = initials(server.name);
+  document.getElementById('channelProfileName').textContent = server.name;
+  document.getElementById('channelProfileSubs').textContent = server.members.length + ' ' + memberWord(server.members.length);
+
+  const muted = (settings.mutedChannels || []).includes(server.id);
+  document.getElementById('channelProfileMuteLabel').textContent = muted ? 'Включить' : 'Звук';
+  document.getElementById('channelProfileMuteBtn').classList.toggle('active', muted);
+
+  document.getElementById('channelProfileDiscussionBtn').style.display = server.discussionEnabled ? 'flex' : 'none';
+  document.getElementById('channelProfileManageBtn').style.display = isChannelAdmin(server) ? 'flex' : 'none';
+  document.getElementById('channelProfileLeaveBtn').style.display = isOwner ? 'none' : 'block';
+
+  document.getElementById('channelProfileLink').textContent = 'nexo.app/c/' + server.invite;
+  const bioRow = document.getElementById('channelProfileBioRow');
+  if (server.bio) { bioRow.style.display = 'block'; document.getElementById('channelProfileBio').textContent = server.bio; }
+  else { bioRow.style.display = 'none'; }
+
+  const stats = computeChannelStats(server);
+  const statRows = [];
+  statRows.push(['<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>', stats.publications + ' ' + pubWord(stats.publications)]);
+  if (stats.links) statRows.push(['<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>', stats.links + ' ' + linkWord(stats.links)]);
+  document.getElementById('channelProfileStats').innerHTML = statRows.map(([icon, label]) =>
+    `<div class="stat-row"><svg class="icon icon-sm" viewBox="0 0 24 24">${icon}</svg><span>${label}</span></div>`
+  ).join('');
+
+  document.getElementById('channelProfileMoreMenu').classList.remove('visible');
+  document.getElementById('channelProfileOverlay').classList.add('visible');
+}
+
+function closeChannelProfile() {
+  document.getElementById('channelProfileOverlay').classList.remove('visible');
+}
+
+function toggleChannelProfileMore() {
+  document.getElementById('channelProfileMoreMenu').classList.toggle('visible');
+}
+
+async function toggleChannelMute() {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server) return;
+  settings.mutedChannels = settings.mutedChannels || [];
+  const idx = settings.mutedChannels.indexOf(server.id);
+  if (idx >= 0) { settings.mutedChannels.splice(idx, 1); showToastGlobal('Уведомления включены'); }
+  else { settings.mutedChannels.push(server.id); showToastGlobal('Уведомления отключены'); }
+  await saveSettings();
+  const muted = settings.mutedChannels.includes(server.id);
+  document.getElementById('channelProfileMuteLabel').textContent = muted ? 'Включить' : 'Звук';
+  document.getElementById('channelProfileMuteBtn').classList.toggle('active', muted);
+}
+
+function openChannelDiscussionFromProfile() {
+  const server = servers.find(s => s.id === activeServerId);
+  if (!server || !server.discussionEnabled) return;
+  closeChannelProfile();
+  showToastGlobal('Обсуждение канала «' + server.name + '»');
+}
+
+function pubWord(n) {
+  const n10 = n % 10, n100 = n % 100;
+  if (n10 === 1 && n100 !== 11) return 'публикация';
+  if ([2,3,4].includes(n10) && ![12,13,14].includes(n100)) return 'публикации';
+  return 'публикаций';
+}
+function linkWord(n) {
+  const n10 = n % 10, n100 = n % 100;
+  if (n10 === 1 && n100 !== 11) return 'ссылка';
+  if ([2,3,4].includes(n10) && ![12,13,14].includes(n100)) return 'ссылки';
+  return 'ссылок';
 }
 
 async function persistActiveServer(server) {
